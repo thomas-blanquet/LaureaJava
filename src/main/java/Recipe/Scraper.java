@@ -1,4 +1,4 @@
-package Items;
+package Recipe;
 
 import org.jsoup.*;
 import org.jsoup.nodes.*;
@@ -28,12 +28,13 @@ public class Scraper {
             doc = Jsoup.connect("https://www.marmiton.org/recettes/recette-hasard.aspx").get();
 
             Recipe recipe = new Recipe();
-            recipe.title = this.getInfo("main-title");
-            recipe.time = this.getInfo("recipe-infos__total-time__value");
-            recipe.quantity = this.getInfo("recipe-infos__quantity__value");
-            recipe.quantity_unit = this.getInfoDetails("recipe-infos__quantity", "recipe-infos__item-title");
-            recipe.ingredients = this.getIngredients();
-            recipe.steps = this.getSteps();
+            recipe.setTitle(this.getInfo("main-title"));
+            recipe.setTime(this.getInfo("recipe-infos__total-time__value"));
+            recipe.setQuantity(this.getInfo("recipe-infos__quantity__value"));
+            recipe.setQuantity_unit(this.getInfoDetails("recipe-infos__quantity", "recipe-infos__item-title"));
+            recipe.setIngredients(this.getIngredients());
+            recipe.setSteps(this.getSteps());
+            recipe.setImage(this.getImage());
 
             return recipe;
 
@@ -61,6 +62,11 @@ public class Scraper {
             steps.add(stp);
         }
         return steps;
+    }
+
+    private String getImage() {
+        Element img = this.doc.getElementById("af-diapo-desktop-0_img");
+        return img.absUrl("src");
     }
 
     /*
