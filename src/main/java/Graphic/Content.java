@@ -13,7 +13,7 @@ import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.text.Position;
 
 /*
- *
+ * Class that contain all the elements displayed in the window and the logic.
  */
 class Content extends JPanel{
     private Scraper scraper;
@@ -23,27 +23,37 @@ class Content extends JPanel{
     private Recipe recipe;
     private Integer currentStep;
 
+    // Buttons
     private JButton recipeGetter;
     private JButton addFavorite;
     private JButton removeFavorite;
     private BasicArrowButton prevStep;
     private BasicArrowButton nextStep;
 
+    // Titles
     private JLabel titleLabel;
     private JLabel infoLabel;
     private JLabel stepsLabel;
     private JLabel ingredientsLabel;
 
+    // Infos
     private JLabel infos;
+
+    // Image
     private ImagePanel image;
 
+    // Steps
     private JLabel step;
+
+    // Ingredients
     private JList<String> ingredients;
     private JScrollPane ingredientsScrollPane;
 
+    // Favorites
     private JList<Recipe> favorites;
     private JScrollPane favoritesScrollPane;
 
+    // Sub Panels
     private JPanel subPan1 = new JPanel(new GridLayout(3,1));
     private JPanel subPanTitle = new JPanel(new GridLayout(1,3));
     private JPanel stepsChangerPan = new JPanel(new GridLayout(1,3));
@@ -52,6 +62,10 @@ class Content extends JPanel{
     private JPanel subPanFavorites = new JPanel(new GridLayout(1,3));
     private JPanel subPanFavoritesButton = new JPanel(new GridLayout(2,1));
 
+    /*
+     * Constructor
+     * All is in it because this class is used as a Panel.
+     */
     Content() {
         super(new GridLayout(3,1));
 
@@ -59,6 +73,7 @@ class Content extends JPanel{
 
         this.dbHandler = new DBHandler();
 
+        // Titles
         this.titleLabel = new JLabel("<html>Recipe</html>", SwingConstants.CENTER);
         this.titleLabel.setFont(new Font(this.titleLabel.getFont().getName(), Font.PLAIN, TITLEFONT));
 
@@ -66,14 +81,18 @@ class Content extends JPanel{
         this.stepsLabel = new JLabel("<html>Steps</html>", SwingConstants.CENTER);
         this.ingredientsLabel = new JLabel("<html>Ingredients</html>", SwingConstants.CENTER);
 
+        // Infos
         this.infos = new JLabel("<html>Time<br>Quantities</html>", SwingConstants.CENTER);
 
+        // Steps
         this.step = new JLabel("<html>Current step</html>", SwingConstants.CENTER);
         this.step.setFont(new Font(this.titleLabel.getFont().getName(), Font.PLAIN, STEPFONT));
 
+        // Ingredients
         this.ingredients = new JList<>(new String[]{"<html>Ingredients</html>"});
         this.ingredientsScrollPane = new JScrollPane(this.ingredients, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
+        // Buttons
         this.recipeGetter = new JButton("<html>Find a recipe</html>");
         this.recipeGetter.setFont(new Font(this.recipeGetter.getFont().getName(), Font.PLAIN, TITLEFONT));
         this.setRecipeGetter();
@@ -88,8 +107,6 @@ class Content extends JPanel{
         this.removeFavorite.setEnabled(false);
         this.setRemoveFavorite();
 
-        this.image = new ImagePanel();
-
         this.prevStep = new BasicArrowButton(BasicArrowButton.WEST);
         this.prevStep.setEnabled(false);
         this.nextStep = new BasicArrowButton(BasicArrowButton.EAST);
@@ -97,6 +114,10 @@ class Content extends JPanel{
         this.setStepChanger(this.prevStep, this.nextStep, PREV);
         this.setStepChanger(this.nextStep, this.prevStep, NEXT);
 
+        // Image
+        this.image = new ImagePanel();
+
+        // Favorites
         favorites = new JList<>();
         favorites.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
@@ -115,6 +136,9 @@ class Content extends JPanel{
         this.assemble();
     }
 
+    /*
+     * Refresh the favorite list
+     */
     private void updateFavorites() {
         DefaultListModel<Recipe> favModel = new DefaultListModel<>();
         for (Recipe elem : this.dbHandler.getFavorites()) {
@@ -125,6 +149,9 @@ class Content extends JPanel{
         }
     }
 
+    /*
+     * Set the actionListerner of the button recipeGetter
+     */
     private void setRecipeGetter() {
         recipeGetter.addActionListener(new ActionListener() {
             @Override
@@ -136,6 +163,9 @@ class Content extends JPanel{
         });
     }
 
+    /*
+     * Set the actionListerner of the button addFarvorite
+     */
     private void setAddFavorite() {
         addFavorite.addActionListener(new ActionListener() {
             @Override
@@ -151,6 +181,9 @@ class Content extends JPanel{
         });
     }
 
+    /*
+     * Set the actionListerner of the button removeFavorite
+     */
     private void setRemoveFavorite() {
         removeFavorite.addActionListener(new ActionListener() {
             @Override
@@ -166,6 +199,9 @@ class Content extends JPanel{
         });
     }
 
+    /*
+     * Set the actionListerner of the buttons used to change the step
+     */
     private void setStepChanger(BasicArrowButton buttonClicked, BasicArrowButton otherButton, Integer type) {
         buttonClicked.addActionListener(new ActionListener() {
             @Override
@@ -184,6 +220,9 @@ class Content extends JPanel{
         });
     }
 
+    /*
+     * Update the recipe displayed.
+     */
     private void updateRecipe() {
         if (this.recipe == null) {
             return ;
@@ -217,6 +256,9 @@ class Content extends JPanel{
         image.repaint();
     }
 
+    /*
+     * Assemble all the panels in the right order.
+     */
     private void assemble() {
         this.stepsChangerPan.add(this.prevStep);
         this.stepsChangerPan.add(this.stepsLabel);
@@ -253,6 +295,7 @@ class Content extends JPanel{
         this.add(this.subPanFavorites);
     }
 
+    // CONSTANTS
     private final static Integer TITLEFONT = 20;
     private final static Integer STEPFONT = 15;
 

@@ -5,9 +5,15 @@ import com.mongodb.*;
 
 import java.util.ArrayList;
 
+/*
+ * manager of the connexion to the db to store the favorite recipes
+ */
 public class DBHandler {
     private DBCollection coll;
 
+    /*
+     * Constructor
+     */
     public DBHandler() {
         try {
             MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://javalaurea:javalaurea2018@ds119374.mlab.com:19374/recipe"));
@@ -18,6 +24,10 @@ public class DBHandler {
         }
     }
 
+    /*
+     * Get all the favorites
+     * Return a array of recipes
+     */
     public ArrayList<Recipe> getFavorites () {
         ArrayList<Recipe> favorites = new ArrayList<Recipe>();
 
@@ -55,6 +65,10 @@ public class DBHandler {
         return favorites;
     }
 
+    /*
+     * Add a recipe to the favorites
+     * Return the new array of favorite recipes
+     */
     public ArrayList<Recipe> addFavorite(Recipe recipe) {
         if (coll == null) {
             return new ArrayList<Recipe>();
@@ -71,6 +85,10 @@ public class DBHandler {
         return this.getFavorites();
     }
 
+    /*
+     * Remove a recipe from the favorites
+     * Return the new array of favorite recipes
+     */
     public ArrayList<Recipe> removeFavorite(Recipe recipe) {
         BasicDBObject searchQuery = new BasicDBObject();
         searchQuery.put("title", recipe.getTitle());		// Find documents with Joe Smith in name field

@@ -15,6 +15,10 @@ public class ImagePanel extends JPanel{
 
     }
 
+    /*
+     * Change image of the panel.
+     * Used when a new recipe is laoded
+     */
     public void changeImage(String imageURL) {
         try {
             URL url = new URL(imageURL);
@@ -26,6 +30,10 @@ public class ImagePanel extends JPanel{
         }
     }
 
+    /*
+     * Change an Image to a BufferedImage.
+     * Used because the resizing return an Image but BufferedImage is used by the Panel
+     */
     private BufferedImage toBufferedImage(Image img)
     {
         if (img instanceof BufferedImage) {
@@ -41,6 +49,9 @@ public class ImagePanel extends JPanel{
         return bimage;
     }
 
+    /*
+     * Method called while the component is displayed to draw it.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

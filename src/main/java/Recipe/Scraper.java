@@ -64,6 +64,10 @@ public class Scraper {
         return steps;
     }
 
+    /*
+     * Get the main image of the recipe
+     * Return a String with the image's URL
+     */
     private String getImage() {
         Element img = this.doc.getElementById("af-diapo-desktop-0_img");
         return img.absUrl("src");

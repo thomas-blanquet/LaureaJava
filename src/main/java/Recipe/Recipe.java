@@ -16,6 +16,10 @@ public class Recipe {
 
     public Recipe() {}
 
+    /*
+     * GETTERS AND SETTERS
+     */
+
     public void setIngredients(ArrayList<String> ingredients) {
         this.ingredients = ingredients;
     }
@@ -72,6 +76,9 @@ public class Recipe {
         this.image = image;
     }
 
+    /*
+     * Only use the title when the object is used as a string
+     */
     @Override
     public String toString() {
         return this.title;
